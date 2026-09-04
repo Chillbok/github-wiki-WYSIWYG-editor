@@ -1,0 +1,195 @@
+/* 
+ * [원리] 이 CSS는 Tauri 웹뷰(맥은 WKWebView, 윈도우는 WebView2)에서 렌더링된다.
+ * 일반 브라우저 CSS와 100% 동일하게 동작한다. Tauri는 단지 이 웹페이지를 네이티브 창에 띄울 뿐이다.
+ */
+
+:root {
+  /* [원리] CSS 변수: 전체 테마 색을 한 곳에서 관리한다 */
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: #0f0f0f;
+  background-color: #f6f6f6;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* [원리] box-sizing: border-box는 padding을 width에 포함시켜 레이아웃 계산을 단순화한다 */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* [원리] 전체 페이지 스크롤을 막고 textarea만 스크롤되게 한다 */
+}
+
+#app {
+  /* [원리] flex 컬럼 레이아웃: 툴바(고정) + 에디터(가변) + 푸터(고정) 구조 */
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh; /* [원리] dvh는 모바일 동적 뷰포트 대응, 데스크탑에선 vh와 동일 */
+}
+
+/* ── 툴바 ── */
+#toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  gap: 12px;
+  flex-shrink: 0; /* [원리] 창이 작아져도 툴바 높이는 줄어들지 않음 */
+}
+
+.toolbar-left {
+  display: flex;
+  gap: 8px;
+}
+
+.toolbar-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+  color: #666;
+  overflow: hidden;
+}
+
+#file-path {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis; /* [원리] 경로가 길면 ...으로 줄임 */
+  white-space: nowrap;
+}
+
+#status {
+  padding: 2px 8px;
+  border-radius: 10px;
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+#status.saving {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+#status.error {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+/* ── 버튼 ── */
+button {
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #0f0f0f;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+button:hover {
+  border-color: #396cd8;
+  background-color: #f0f4ff;
+}
+
+button:active {
+  background-color: #e0e8ff;
+}
+
+/* ── 에디터 ── */
+#editor-container {
+  flex: 1; /* [원리] 남은 공간을 모두 차지 → textarea가 창 크기에 맞춰 늘어난다 */
+  display: flex;
+  padding: 0;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+#editor {
+  /* [원리] textarea가 부모 컨테이너를 가득 채우도록 함 */
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  border: none;
+  outline: none; /* [원리] 포커스 시 기본 파란 테두리 제거 */
+  resize: none; /* [원리] 사용자가 드래그로 크기 조절 못하게 고정 */
+  font-family: "Consolas", "Monaco", "Menlo", "D2Coding", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #1a1a1a;
+  background-color: #ffffff;
+  white-space: pre-wrap; /* [원리] 줄바꿈과 공백을 그대로 유지하되 창 너비에 맞춰 자동 줄바꿈 */
+  word-break: break-all;
+}
+
+/* ── 푸터 ── */
+#footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  font-size: 11px;
+  color: #888;
+  background-color: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
+
+/* ── 다크 모드 ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #f6f6f6;
+    background-color: #1e1e1e;
+  }
+
+  #toolbar {
+    background-color: #252525;
+    border-bottom-color: #333;
+  }
+
+  #editor-container {
+    background-color: #1e1e1e;
+  }
+
+  #editor {
+    color: #d4d4d4;
+    background-color: #1e1e1e;
+  }
+
+  #footer {
+    background-color: #252525;
+    border-top-color: #333;
+    color: #999;
+  }
+
+  button {
+    color: #e0e0e0;
+    background-color: #333;
+    border-color: #444;
+  }
+
+  button:hover {
+    background-color: #3a3a3a;
+    border-color: #555;
+  }
+}

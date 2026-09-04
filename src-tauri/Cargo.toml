@@ -1,0 +1,25 @@
+[package]
+name = "github-wiki-wysiwyg-editor"
+version = "0.1.0"
+description = "Github WIKI Editor - Tauri 기반 최소 텍스트 에디터"
+authors = ["Chillbok"]
+edition = "2021"
+
+# [원리] lib 크레이트: Tauri가 Rust 코드를 라이브러리로 빌드할 때 사용
+[lib]
+name = "github_wiki_wysiwyg_editor_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+# [원리] build-dependencies: 빌드 스크립트(build.rs)에서만 쓰이는 의존성
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+# [원리] dependencies: 실제 앱에서 쓰이는 Rust 라이브러리
+[dependencies]
+tauri = { version = "2", features = [] }
+# [원리] tauri-plugin-dialog: OS 네이티브 열기/저장 다이얼로그를 띄우는 플러그인
+tauri-plugin-dialog = "2"
+# [원리] tauri-plugin-opener: 외부 링크/파일을 OS 기본 앱으로 여는 플러그인 (템플릿 기본 포함)
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

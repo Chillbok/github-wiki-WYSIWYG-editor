@@ -1,0 +1,23 @@
+{
+  "name": "github-wiki-wysiwyg-editor",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Github WIKI Editor - Tauri 기반 최소 텍스트 에디터",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-dialog": "^2",
+    "@tauri-apps/plugin-opener": "^2"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.3"
+  }
+}

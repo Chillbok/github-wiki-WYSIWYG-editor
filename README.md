@@ -1,7 +1,7 @@
 # github-wiki-WYSIWYG-editor
 
-GitHub Wiki를 편집 영역에 한해 옵시디언 수준으로 편하게 쓰는 Tauri 기반 WYSIWYG(위지윅) 에디터입니다.
-Rust·JavaScript 학습과 앱 개발 연습이 배경인 프로젝트입니다.
+GitHub Wiki를 편집 영역에 한해 옵시디언 수준으로 편하게 쓰는 Tauri 기반 WYSIWYG(위지윅) 에디터, **Github WIKI Editor**입니다.
+Rust·TypeScript 학습과 앱 개발 연습이 배경인 프로젝트입니다.
 
 ## 기능
 
@@ -27,7 +27,7 @@ Rust·JavaScript 학습과 앱 개발 연습이 배경인 프로젝트입니다.
 | 항목 | 사용할 기술 | 이유 |
 | --- | --- | --- |
 | GUI 프레임워크 | Tauri | Electron보다 번들이 가볍고, 성능이 우수함. 또한, Rust/JS 학습 목표와도 일치함. |
-| 프론트엔드 | JavaScript | Tauri 프론트엔드 기본값, 추후 TypeScript 전환 여지 있음. |
+| 프론트엔드 | TypeScript | Tauri 권장 스택, Rust command와의 타입 안정성 및 자동완성 확보. Vite가 트랜스파일을 처리함. |
 | 백엔드 | Rust | Tauri 백엔드 기본 언어이자 학습 목표와 일치함. |
 
 ## 아키텍처
@@ -41,9 +41,20 @@ Rust·JavaScript 학습과 앱 개발 연습이 배경인 프로젝트입니다.
 
 ## 로드맵
 
-- v0.1: 탭 편집 + 라이브 프리뷰 + 일괄 `push` / `pull`.
+- v0.1: 최소 텍스트 에디터 (단일 `textarea` + 파일 열기 + 600ms 디바운스 자동 저장) — **현재 구현 완료**.
+- v0.2: 탭 편집 + 라이브 프리뷰 + 일괄 `push` / `pull`.
 - 제외: 파일별 `stage` 후 커밋 (1차 버전에서 제공하지 않음).
-- 설치 / 사용 방법: 프로토타입 구현 후 작성 예정.
+
+## 실행 방법 (v0.1)
+
+```bash
+npm install
+npm run tauri dev   # 개발 모드
+npm run tauri build # 프로덕션 번들
+```
+
+- 앱 이름: **Github WIKI Editor** (`com.chillbok.github-wiki-editor`)
+- 자동 저장: 편집 후 600ms 뒤 현재 파일에 자동 저장. 새 파일은 첫 저장 시 다이얼로그로 경로 지정.
 
 ## 라이선스
 

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- [원리] Vite는 이 CSS를 빌드 시 번들링한다. /src 경로는 Vite가 루트로 매핑한다 -->
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Github WIKI Editor</title>
+    <!-- [원리] type="module"은 브라우저가 이 파일을 ES 모듈로 인식하게 한다. defer로 HTML 파싱 후 실행 -->
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+  <body>
+    <!-- [원리] Tauri는 이 HTML을 네이티브 웹뷰(WebView)에서 렌더링한다. Electron과 달리 가벼운 OS 내장 웹뷰를 쓴다 -->
+    <div id="app">
+      <!-- 상단 툴바: 파일 조작 버튼 영역 -->
+      <header id="toolbar">
+        <div class="toolbar-left">
+          <!-- [원리] 각 버튼은 JS에서 click 이벤트를 받아 Rust 혹은 dialog 플러그인과 통신한다 -->
+          <button id="btn-new" title="새 파일 (Cmd+N)">새 파일</button>
+          <button id="btn-open" title="파일 열기 (Cmd+O)">열기</button>
+          <button id="btn-save-as" title="다른 이름으로 저장">다른 이름으로 저장</button>
+        </div>
+        <div class="toolbar-right">
+          <!-- [원리] 현재 파일 경로와 저장 상태를 사용자에게 보여주는 상태 표시줄 -->
+          <span id="file-path">파일 없음</span>
+          <span id="status">대기 중</span>
+        </div>
+      </header>
+
+      <!-- [원리] textarea는 가장 단순한 텍스트 편집 요소. contenteditable보다 동작이 예측 가능하고 가볍다 -->
+      <main id="editor-container">
+        <textarea
+          id="editor"
+          placeholder="여기에 텍스트를 입력하세요... (자동 저장: 입력 후 600ms 뒤 저장)"
+          spellcheck="false"
+          autofocus
+        ></textarea>
+      </main>
+
+      <!-- 하단 상태바 -->
+      <footer id="footer">
+        <span id="char-count">0 글자</span>
+        <span id="auto-save-info">자동 저장: 600ms 디바운스</span>
+      </footer>
+    </div>
+  </body>
+</html>
